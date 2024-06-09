@@ -3,7 +3,7 @@
  
 Setup Instructions:
 
--Clone the repository: git clone <GitHub repository URL>
+-Clone the repository: git clone <gh repo clone LeahAphane/Programming-final-POE>
 
 -Open the solution in Visual Studio.
 
