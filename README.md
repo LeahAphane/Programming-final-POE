@@ -2,7 +2,9 @@
  Windows Presentation Foundation
  
 Setup Instructions:
+
 Clone the repository: git clone <GitHub repository URL>
+
 Open the solution in Visual Studio.
 Restore NuGet packages: Use Package Manager Console or Restore NuGet Packages option.
 Build the solution.
