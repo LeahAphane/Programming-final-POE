@@ -1,0 +1,98 @@
+﻿<Window x:Class="RecipeFilterApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:converters="clr-namespace:RecipeFilterApp.Converters"
+        mc:Ignorable="d"
+        Title="Recipe Filter" Height="600" Width="1000">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!-- Define the BooleanToVisibilityConverter -->
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+
+        <!-- Input Fields -->
+        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
+            <Grid Margin="0,0,10,0">
+                <TextBox x:Name="RecipeNameTextBox" Width="200" VerticalContentAlignment="Center"/>
+                <TextBlock Text="Recipe Name" IsHitTestVisible="False" Foreground="Gray"
+                           VerticalAlignment="Center" Margin="5,0,0,0" 
+                           Visibility="{Binding Text, ElementName=RecipeNameTextBox, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverted}"/>
+            </Grid>
+            <Grid Margin="0,0,10,0">
+                <TextBox x:Name="IngredientTextBox" Width="200" VerticalContentAlignment="Center"/>
+                <TextBlock Text="Ingredient" IsHitTestVisible="False" Foreground="Gray"
+                           VerticalAlignment="Center" Margin="5,0,0,0" 
+                           Visibility="{Binding Text, ElementName=IngredientTextBox, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverted}"/>
+            </Grid>
+            <ComboBox x:Name="FoodGroupComboBox" Width="150" Margin="0,0,10,0">
+                <ComboBoxItem Content="Vegetables"/>
+                <ComboBoxItem Content="Fruits"/>
+                <ComboBoxItem Content="Grains"/>
+                <ComboBoxItem Content="Protein"/>
+                <ComboBoxItem Content="Dairy"/>
+            </ComboBox>
+            <Grid Margin="0,0,10,0">
+                <TextBox x:Name="CaloriesTextBox" Width="100" VerticalContentAlignment="Center"/>
+                <TextBlock Text="Calories" IsHitTestVisible="False" Foreground="Gray"
+                           VerticalAlignment="Center" Margin="5,0,0,0" 
+                           Visibility="{Binding Text, ElementName=CaloriesTextBox, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverted}"/>
+            </Grid>
+            <Button x:Name="FilterButton" Content="Filter" Click="FilterButton_Click" Margin="0,0,10,0"/>
+            <Button x:Name="ClearFilterButton" Content="Clear Filters" Click="ClearFilterButton_Click" Margin="0,0,10,0"/>
+            <Button x:Name="AddIngredientButton" Content="Add Ingredient" Click="AddIngredientButton_Click" Margin="0,0,10,0"/>
+            <Button x:Name="AddRecipeButton" Content="Add Recipe" Click="AddRecipeButton_Click" Margin="0,0,10,0"/>
+            <Button x:Name="DeleteRecipeButton" Content="Delete Recipe" Click="DeleteRecipeButton_Click" Margin="0,0,10,0"/>
+            <Button x:Name="EditRecipeButton" Content="Edit Recipe" Click="EditRecipeButton_Click" Margin="0,0,10,0"/>
+            <Grid Margin="0,0,10,0">
+                <TextBox x:Name="ScalingFactorTextBox" Width="50" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
+                <TextBlock Text="Scaling Factor" IsHitTestVisible="False" Foreground="Gray"
+                           VerticalAlignment="Center" Margin="5,0,0,0" 
+                           Visibility="{Binding Text, ElementName=ScalingFactorTextBox, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverted}"/>
+            </Grid>
+            <Button x:Name="ScaleRecipeButton" Content="Scale" Click="ScaleRecipeButton_Click" Margin="0,0,10,0"/>
+            <Button x:Name="ResetScaleButton" Content="Reset" Click="ResetScaleButton_Click" Margin="0,0,10,0"/>
+        </StackPanel>
+
+        <!-- Recipe List -->
+        <ListView x:Name="RecipeListView" Grid.Row="1" SelectionMode="Multiple" SelectionChanged="RecipeListView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                    <GridViewColumn Header="Total Calories" DisplayMemberBinding="{Binding TotalCalories}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Recipe Details -->
+        <StackPanel Orientation="Vertical" Margin="10" Grid.Row="2">
+            <TextBlock Text="Recipe Details" FontWeight="Bold" Margin="0,10,0,0"/>
+            <ListView x:Name="IngredientListView">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Ingredient" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                        <GridViewColumn Header="Food Group" DisplayMemberBinding="{Binding FoodGroup}" Width="150"/>
+                        <GridViewColumn Header="Calories" DisplayMemberBinding="{Binding Calories}" Width="100"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <TextBlock x:Name="TotalCaloriesTextBlock" Text="Total Calories: 0" Margin="10,10,0,0"/>
+        </StackPanel>
+
+        <!-- Pie Chart -->
+        <lvc:PieChart x:Name="PieChart" Grid.Row="3" Margin="10"/>
+    </Grid>
+</Window>
